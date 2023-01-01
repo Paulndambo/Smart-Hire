@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: smarthire-backend
+spec:
+  selector:
+    matchLabels:
+      app: smarthire-backend
+  template:
+    metadata:
+      labels:
+        app: smarthire-backend
+    spec:
+      containers:
+      - name: smart_hire_backend
+        image: 40781998/smarthire-backend:latest
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 8000
