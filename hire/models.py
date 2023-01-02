@@ -18,6 +18,7 @@ class Candidate(models.Model):
     birth_date = models.DateField(null=True, blank=True)
     professional_summary = models.TextField(null=True, blank=True)
     professional_title = models.CharField(max_length=255, null=True)
+    years_of_experience = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
