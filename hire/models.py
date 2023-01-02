@@ -88,11 +88,17 @@ class Education(models.Model):
         return self.candidate.first_name + " " + self.candidate.last_name 
 
 
+SKILL_CATEGORY_CHOICES = (
+    ("primary", "Primary Skills"),
+    ("secondary", "Secondary Skills"),
+)
+
 class Skill(models.Model):
     candidate = models.ForeignKey(Candidate, on_delete=models.CASCADE, related_name="skills")
     title = models.CharField(max_length=255)
     years_of_experience = models.FloatField(default=0)
     years_of_profession_experience = models.FloatField(default=0)
+    skill_category = models.CharField(max_length=255, choices=SKILL_CATEGORY_CHOICES, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
