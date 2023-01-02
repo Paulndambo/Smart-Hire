@@ -71,9 +71,11 @@ class Job(models.Model):
     work_place_type = models.CharField(max_length=255, choices=WORK_PLACE_TYPE, null=True, blank=True)
     mininum_experience = models.FloatField(default=0)
     maximum_experience = models.FloatField(null=True, blank=True)
-    primary_skills = models.JSONField(default=[]) # {"name": "Python", "years": 3}
-    secondary_skills = models.JSONField(default=[])  # {"name": "Java", "years": 3}
-    good_to_have_skills = models.JSONField(default=[])  # {"name": "Python", "years": 3}
+    primary_skills = models.JSONField(null=True, blank=True) # {"name": "Python", "years": 3}
+    secondary_skills = models.JSONField(
+        null=True, blank=True)  # {"name": "Java", "years": 3}
+    good_to_have_skills = models.JSONField(
+        null=True, blank=True)  # {"name": "Python", "years": 3}
     start_date = models.DateField(null=True, blank=True)
     end_date = models.DateField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
