@@ -3,6 +3,19 @@ from django.conf import settings
 from django.contrib.auth.models import User
 
 # Create your models here.
+
+SPECIALTY_CHOICES = (
+    ("backend", "Backend Developer"),
+    ("frontend", "Frontend Developer"),
+    ("fullstack", "Fullstack Developer"),
+    ("database", "Database Engineer/Developer/Administrator"),
+    ("devops", "DevOps Engineer"),
+    ("cloud", "Cloud Engineer/Architect/Developer"),
+    ("designer", "Product Designer/Web Designer"),
+    ("android", "Android App Developer"),
+    ("ios", "iOS App Developer"),
+    ("cross_platform", "Cross Platform App Developer"),
+)
 class Candidate(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=255)
@@ -18,6 +31,7 @@ class Candidate(models.Model):
     birth_date = models.DateField(null=True, blank=True)
     professional_summary = models.TextField(null=True, blank=True)
     professional_title = models.CharField(max_length=255, null=True)
+    specialty = models.CharField(max_length=255, null=True, blank=True, choices=SPECIALTY_CHOICES)
     years_of_experience = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
