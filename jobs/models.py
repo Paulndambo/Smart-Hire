@@ -85,16 +85,15 @@ class Job(models.Model):
     minimum_experience = models.FloatField(default=0)
     maximum_experience = models.FloatField(null=True, blank=True)
     primary_skills = models.JSONField(null=True, blank=True) # {"name": "Python", "years": 3}
-    secondary_skills = models.JSONField(
-        null=True, blank=True)  # {"name": "Java", "years": 3}
-    good_to_have_skills = models.JSONField(
-        null=True, blank=True)  # {"name": "Python", "years": 3}
+    secondary_skills = models.JSONField(null=True, blank=True)  # {"name": "Java", "years": 3}
+    good_to_have_skills = models.JSONField(null=True, blank=True)  # {"name": "Python", "years": 3}
     start_date = models.DateField(null=True, blank=True)
     end_date = models.DateField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
-    specialty = models.CharField(max_length=255, null=True, blank=True, choices=SPECIALTY_CHOICES)
+    category = models.CharField(max_length=255, null=True, blank=True, choices=SPECIALTY_CHOICES)
+    seniority = models.CharField(max_length=255, choices=SENIORITY_CHOICES, null=True, blank=True)
     
     def __str__(self):
         return self.title
