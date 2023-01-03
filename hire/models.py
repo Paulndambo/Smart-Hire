@@ -15,7 +15,7 @@ SPECIALTY_CHOICES = (
     ("designer", "Product Designer/Web Designer"),
     ("android", "Android App Developer"),
     ("ios", "iOS App Developer"),
-    ("cross_platform", "Cross Platform App Developer"),
+    ("cross_platform_app", "Cross Platform App Developer"),
 )
 
 PROFESSIONAL_TITLE_CHOICES = (
@@ -47,6 +47,7 @@ class Candidate(models.Model):
     professional_title = models.CharField(max_length=255, choices=PROFESSIONAL_TITLE_CHOICES, null=True)
     specialty = models.CharField(max_length=255, null=True, blank=True, choices=SPECIALTY_CHOICES)
     years_of_experience = models.IntegerField(default=0)
+    resume = models.FileField(upload_to="resumes/", null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -68,7 +69,6 @@ DEGREE_STATUS_CHOICES = (
 )
 
 
-
 class Education(models.Model):
     candidate = models.ForeignKey(Candidate, on_delete=models.CASCADE, related_name="education")
     school = models.CharField(max_length=255)
@@ -80,7 +80,6 @@ class Education(models.Model):
     graduation_date = models.DateField(null=True, blank=True)
     graduation_status = models.CharField(max_length=255, choices=GRADUATION_STATUS_CHOICES, null=True, blank=True)
     certificate = models.FileField(upload_to="education_certificates/", null=True, blank=True)
-    years_of_experience = models.FloatField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -104,7 +103,7 @@ class Skill(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.candidate.first_name 
+        return self.candidate.first_name + " - " +self.title + " - " + f"{str(self.years_of_experience)} Years of Experience"
 
 
 class Experience(models.Model):
@@ -113,7 +112,7 @@ class Experience(models.Model):
     position = models.CharField(max_length=255)
     start_date = models.DateField(null=True, blank=True)
     end_date = models.DateField(null=True, blank=True)
-    skills = models.JSONField(default=[])
+    skills = models.JSONField(null=True, blank=True)
     relevant_skills = models.ManyToManyField(Skill)
     description = models.TextField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -122,7 +121,3 @@ class Experience(models.Model):
     def __str__(self):
         return self.candidate.first_name + " " + self.candidate.last_name 
 
-
-
-#class Job(models.Model):
-#    passe
