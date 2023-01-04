@@ -1,21 +1,20 @@
 from jobs.models import Job
 
 def filter_jobs_by_primary_skillset(jobs, candidate_primary_skills):
-    jobs = jobs.values('id', 'primary_skills')
-
-    job_primary_skills = [x['primary_skills'] for x in jobs]
-
-    job_ids = []
+    matching_jobs = []
 
     for job in jobs:
-        job_skills = job['primary_skills']
-        for job_skill in job_skills:
-            if job_skill in candidate_primary_skills:
-                job_ids.append(job['id'])
+        job_primary_skills = job.primary_skills
+        if len(job_primary_skills) == 1:
+            print("Matching Skills Few")
+        elif len(job_primary_skills) > 1:
+            matching_skills = [x for x in job_primary_skills if x in candidate_primary_skills]
+            if len(matching_skills) == 1:
+                print("Matched Very Few Skills")
+            matching_jobs.append(job.id)
+    
+    print(f"Matching Jobs: {matching_jobs}")
 
-    print(f"Job Ids: {set(job_ids)}")
-    print(f"Jobs Requirements: {jobs}")
-    print(f"Job Primary Skills: {job_primary_skills}")
     
 
 def job_matching_based_on_experience(candidate):
