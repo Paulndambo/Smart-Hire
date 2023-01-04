@@ -60,6 +60,19 @@ SENIORITY_CHOICES = (
     ("senior", "Senior")
 )
 
+SPECIALTY_CHOICES = (
+    ("backend", "Backend Developer"),
+    ("frontend", "Frontend Developer"),
+    ("fullstack", "Fullstack Developer"),
+    ("product", "Product Developer/Engineer"),
+    ("database", "Database Engineer/Developer/Administrator"),
+    ("devops", "DevOps Engineer"),
+    ("cloud", "Cloud Engineer/Architect/Developer"),
+    ("designer", "Product Designer/Web Designer"),
+    ("android", "Android App Developer"),
+    ("ios", "iOS App Developer"),
+    ("cross_platform_app", "Cross Platform App Developer"),
+)
 
 class Job(models.Model):
     employer = models.ForeignKey(Employer, on_delete=models.CASCADE, related_name="jobs")
@@ -69,18 +82,18 @@ class Job(models.Model):
     location = models.CharField(max_length=255, null=True, blank=True)
     work_type = models.CharField(max_length=255, choices=WORK_TYPE_CHOICES, null=True, blank=True)
     work_place_type = models.CharField(max_length=255, choices=WORK_PLACE_TYPE, null=True, blank=True)
-    mininum_experience = models.FloatField(default=0)
+    minimum_experience = models.FloatField(default=0)
     maximum_experience = models.FloatField(null=True, blank=True)
     primary_skills = models.JSONField(null=True, blank=True) # {"name": "Python", "years": 3}
-    secondary_skills = models.JSONField(
-        null=True, blank=True)  # {"name": "Java", "years": 3}
-    good_to_have_skills = models.JSONField(
-        null=True, blank=True)  # {"name": "Python", "years": 3}
+    secondary_skills = models.JSONField(null=True, blank=True)  # {"name": "Java", "years": 3}
+    good_to_have_skills = models.JSONField(null=True, blank=True)  # {"name": "Python", "years": 3}
     start_date = models.DateField(null=True, blank=True)
     end_date = models.DateField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
+    category = models.CharField(max_length=255, null=True, blank=True, choices=SPECIALTY_CHOICES)
+    seniority = models.CharField(max_length=255, choices=SENIORITY_CHOICES, null=True, blank=True)
     
     def __str__(self):
         return self.title

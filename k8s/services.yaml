@@ -4,7 +4,7 @@ metadata:
   name: smarthire-backend
 spec:
   selector:
-    app: myapp
+    app: smarthire-backend
   type: LoadBalancer
   ports:
   - port: 8000
