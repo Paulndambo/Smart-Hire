@@ -2,30 +2,23 @@ from jobs.models import Job
 
 def filter_jobs_by_primary_skillset(jobs, candidate_primary_skills):
     matching_jobs_ids = []
+    excellent_matching_job_ids = [] ## This is 100% match
 
     for job in jobs:
         job_primary_skills = job.primary_skills
+        print(f"Job P. Skills: {job_primary_skills}")
 
-        """
-        => In a case where the job primary skills list/array len = 1
-        => Just check if that skill exists in the candidate primary skills list/array
-        """
-        if len(job_primary_skills) == 1:
-            matching_skills = [x for x in job_primary_skills if x in candidate_primary_skills]
-            if len(matching_skills) > 0:
-                matching_jobs_ids.append(job.id)
-            return []
+        matching_skills = [x for x in job_primary_skills if x in candidate_primary_skills]
 
-        elif len(job_primary_skills) > 1:
-            matching_skills = [x for x in job_primary_skills if x in candidate_primary_skills]
-            if len(matching_skills) == 1:
-                print("Matched Very Few Skills")
-            matching_jobs_ids.append(job.id)
-        
-    
-    print(f"Matching Jobs: {matching_jobs_ids}")
+        if len(matching_skills) == len(job_primary_skills):
+            excellent_matching_job_ids.append(job.id)
 
-    return matching_jobs_ids
+        matching_jobs_ids.append(job.id)
+
+        print(f"Matching skills: {matching_skills}")
+
+   
+    return matching_jobs_ids, excellent_matching_job_ids
 
     
 
@@ -50,7 +43,7 @@ def job_matching_based_on_experience(candidate):
     #print(excellent_match_ids)
 
     """3. Filter Jobs By Primary Skills"""
-    filter_jobs_by_primary_skillset(jobs_by_experience, list(candidate_primary_skills))
+    x, y = filter_jobs_by_primary_skillset(jobs_by_experience, list(candidate_primary_skills))
 
 
     candidate_profile = f"""
@@ -64,7 +57,7 @@ def job_matching_based_on_experience(candidate):
 
     #candidate_primary_skills = candidate.
 
-    return "Hello World"
+    return y
 
 def job_matching_based_on_skillset(jobs, candidate):
     pass

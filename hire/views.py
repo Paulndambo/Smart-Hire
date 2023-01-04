@@ -46,16 +46,17 @@ class JobsMatchingCandidateAPIView(generics.GenericAPIView):
         #email = request.GET.get("email")
         if candidate_pk:
             candidate = get_object_or_404(Candidate, pk=candidate_pk)
+
             """
             => If the candidate exists, filter jobs
             """
-            #if candidate is None:
-            #    return Response({"failed": f"No candidate with id: {candidate_pk}"}, status=status.HTTP_404_NOT_FOUND)
+            if candidate is None:
+                return Response({"failed": f"No candidate with id: {candidate_pk}"}, status=status.HTTP_404_NOT_FOUND)
             print(candidate)
-            job_matching_based_on_experience(candidate)
-            #queryset = self.queryset.filter(id__in=job_matching_based_on_experience(candidate))
-            #serializer = JobsMatchingCandidateSerializer(queryset, many=True)
-            #return Response(serializer.data, status=status.HTTP_200_OK)
+            #queryset = job_matching_based_on_experience(candidate)
+            queryset = self.queryset.filter(id__in=job_matching_based_on_experience(candidate))
+            serializer = JobsMatchingCandidateSerializer(queryset, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
         return Response({"success": "No jobs match for you"}, status=status.HTTP_200_OK)
 
 
