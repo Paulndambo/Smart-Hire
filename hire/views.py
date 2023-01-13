@@ -6,7 +6,8 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from jobs.models import Job
 
-from .job_matching_functions import job_matching_based_on_experience, job_matching_based_on_skillset
+from .job_matching_functions import job_matching_candidate
+from .candidates_matching_job import candidates_matching_job
 
 from hire.serializers import CandidateSerializer, CandidateProfileSerializer, EducationSerializer, SkillSerializer, ExperienceSerializer, JobsMatchingCandidateSerializer
 # Create your views here.
@@ -46,7 +47,6 @@ class JobsMatchingCandidateAPIView(generics.GenericAPIView):
         #email = request.GET.get("email")
         if candidate_pk:
             candidate = get_object_or_404(Candidate, pk=candidate_pk)
-
             """
             => If the candidate exists, filter jobs
             """
@@ -54,9 +54,30 @@ class JobsMatchingCandidateAPIView(generics.GenericAPIView):
                 return Response({"failed": f"No candidate with id: {candidate_pk}"}, status=status.HTTP_404_NOT_FOUND)
             print(candidate)
             #queryset = job_matching_based_on_experience(candidate)
-            queryset = self.queryset.filter(id__in=job_matching_based_on_experience(candidate))
+            queryset = self.queryset.filter(
+                id__in=job_matching_candidate(candidate))
             serializer = JobsMatchingCandidateSerializer(queryset, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response({"success": "No jobs match for you"}, status=status.HTTP_200_OK)
+
+
+class CandidatesMatchingJobAPIView(generics.GenericAPIView):
+    queryset = Candidate.objects.all()
+    serializer_class = CandidateSerializer
+
+    def get(self, request, *args, **kwargs):
+        job_id = request.query_params.get("job_id")
+
+        if job_id:
+            job = get_object_or_404(Job, pk=job_id)
+            if job:
+                candidates = self.queryset.filter(id__in=candidates_matching_job(job))
+
+                print(f"Matching Candidates: {candidates}")
+
+                serialiazer = CandidateSerializer(candidates, many=True)
+                return Response(serialiazer.data, status=status.HTTP_200_OK)
+        #serialiazer = self.serializer_class(instance=self.get_queryset(), many=True)
+        return Response({"message": "No Candidates Matching This Job!"}, status=status.HTTP_200_OK)
 
 
