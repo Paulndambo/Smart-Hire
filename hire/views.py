@@ -47,7 +47,6 @@ class JobsMatchingCandidateAPIView(generics.GenericAPIView):
         #email = request.GET.get("email")
         if candidate_pk:
             candidate = get_object_or_404(Candidate, pk=candidate_pk)
-
             """
             => If the candidate exists, filter jobs
             """
