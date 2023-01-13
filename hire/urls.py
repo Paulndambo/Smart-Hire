@@ -14,4 +14,5 @@ router.register("experience", views.ExperienceViewSet, basename="experience")
 urlpatterns = [
     path("", include(router.urls)),
     path("jobs-matching-candidate/", views.JobsMatchingCandidateAPIView.as_view(), name="jobs-matching-candidate"),
+    path("candidates-matching-job/", views.CandidatesMatchingJobAPIView.as_view(), name="candidates-matching-job"),
 ]

@@ -3,7 +3,6 @@ from jobs.models import Job
 def filter_jobs_by_primary_skillset(jobs, candidate_primary_skills):
     matching_jobs_ids = []
     excellent_matching_job_ids = [] ## This is 100% match
-
     for job in jobs:
         job_primary_skills = job.primary_skills
         print(f"Job P. Skills: {job_primary_skills}")
@@ -12,17 +11,15 @@ def filter_jobs_by_primary_skillset(jobs, candidate_primary_skills):
 
         if len(matching_skills) == len(job_primary_skills):
             excellent_matching_job_ids.append(job.id)
-
         matching_jobs_ids.append(job.id)
 
         print(f"Matching skills: {matching_skills}")
 
-   
     return matching_jobs_ids, excellent_matching_job_ids
 
     
 
-def job_matching_based_on_experience(candidate):
+def job_matching_candidate(candidate):
     candidate_specialty = candidate.specialty.lower()
     candidate_seniority = candidate.seniority
     candidate_experience = candidate.years_of_experience
@@ -36,7 +33,6 @@ def job_matching_based_on_experience(candidate):
     """2. Filter Jobs Based On Seniority"""
     jobs_by_seniority = jobs_by_specialty.filter(seniority=candidate_seniority)
     #print(f"Jobs By Seniority: {jobs_by_seniority}")
-
 
     """2. Filter Previous Jobs By Years of Experience"""
     jobs_by_experience = jobs_by_seniority.filter(minimum_experience__lte=candidate_experience)
