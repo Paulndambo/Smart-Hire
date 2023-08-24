@@ -75,7 +75,7 @@ class CandidatesMatchingJobAPIView(generics.GenericAPIView):
 
                 print(f"Matching Candidates: {candidates}")
 
-                serialiazer = CandidateSerializer(candidates, many=True)
+                serialiazer = CandidateProfileSerializer(candidates, many=True)
                 return Response(serialiazer.data, status=status.HTTP_200_OK)
         #serialiazer = self.serializer_class(instance=self.get_queryset(), many=True)
         return Response({"message": "No Candidates Matching This Job!"}, status=status.HTTP_200_OK)

@@ -18,11 +18,11 @@ def candidates_matching_job(job):
     job_years_experience = job.minimum_experience
     job_primary_skills = job.primary_skills
 
-    """1. Filter Candidate Based on Job Type"""
+    """1. Filter Candidate Based on Job Type/Specialty"""
     candidates_based_on_specialty = Candidate.objects.filter(specialty=job_type)#.values_list('id', flat=True)
    
     """2. Filter Candidate Based on Seniority"""
-    candidates_based_on_seniority = Candidate.objects.filter(seniority=job_seniority)
+    candidates_based_on_seniority = candidates_based_on_specialty.filter(seniority=job_seniority)
 
     """3. Filter Candidate Based on Years of Experience"""
     candidates_based_on_experience = candidates_based_on_seniority.filter(years_of_experience__gte=job_years_experience).values_list('id', flat=True)

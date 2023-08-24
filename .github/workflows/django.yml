@@ -44,3 +44,7 @@ jobs:
           docker-username: 40781998 #${{ secrets.DOCKER_USERNAME }} # docker account - username
           docker-password: Paul@1234
 
+  deploy-to-k8s:
+    needs: build
+    runs-on: ubuntu-latest
+
